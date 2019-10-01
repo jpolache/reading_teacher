@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+select { font-size: 35px; width: 240px; padding-left: 25px }
+option { text-align: center; text-indent: 10px; }
+</style>
+<script language="javascript">
+var count=1;
+var gl_count=1;
+var filename=gl_count+"-"+count;
+var urlstring="http://home.grandecom.net/~jonpol/RT/"+filename+".txt";
+var myHelp = new Audio("../RT/help.mp3");
+function dButton() {
+document.getElementById("book").disabled = true;
+document.getElementById("bookimg").src = "bookd.jpg";
+document.getElementById("ra").disabled = true;
+document.getElementById("raimg").src = "rad.jpg";
+document.getElementById("ua").disabled = true;
+document.getElementById("uaimg").src = "uad.jpg";
+document.getElementById("da").disabled = true;
+document.getElementById("daimg").src = "dad.jpg";
+}
+function eButton() {
+document.getElementById("book").disabled = false;
+document.getElementById("bookimg").src = "book.jpg";
+document.getElementById("ra").disabled = false;
+document.getElementById("raimg").src = "ra.jpg";
+document.getElementById("ua").disabled = false;
+document.getElementById("uaimg").src = "ua.jpg";
+document.getElementById("da").disabled = false;
+document.getElementById("daimg").src = "da.jpg";
+}
+function fn_update() {
+filename=gl_count+"-"+count;
+urlstring="http://home.grandecom.net/~jonpol/RT/"+filename+".txt";
+}
+function onLoad() {
+myHelp.addEventListener('ended', function(e) {
+eButton();
+}, false);
+dButton();
+getText();
+wp();
+}
+function wp() {
+myAudio = new Audio("./welcome.mp3");
+myAudio.loop = true;
+myAudio.play();
+}
+function stopLoop() {
+myAudio.loop=false;
+myAudio.pause();
+}
+/*
+function soundsLoaded() {
+var n = 1;
+loop.start("sound" + n);
+};
+*/
+function getText() {
+readfile=new XMLHttpRequest();
+readfile.open("GET",urlstring,false);
+readfile.send();
+responseText=readfile.response;
+document.getElementById("text").innerHTML=readfile.responseText;
+}
+function both() {
+getText();
+getSound();
+}
+function increment () {
+count++;
+if (count > 4) {
+count = 1;
+}
+fn_update();
+getText();
+}
+function gl_increment () {
+count=1;
+gl_count++; if (gl_count > 4) {
+gl_count = 1;
+}
+fn_update();
+getText();
+}
+function gl_decrement () {
+count=1;
+gl_count--;
+if (gl_count < 1) {
+gl_count = 1;
+}
+fn_update();
+getText();
+}
+function getSound() {
+new Audio(filename+".mp3").play();
+}
+function help() {
+stopLoop();
+myHelp.play();
+}
+</script>
+<meta charset="utf-8"><title>Reading Teacher</title>
+
+</head>
+<body onload="onLoad()">
+<br>
+<br>
+<br>
+<br>
+<div align="center">
+<table style="width: 700px;">
+<tbody>
+<tr>
+<td colspan="5" id="text" style="border: 5px solid black; font-size: 200%; font-family: Arial,Helvetica,sans-serif; vertical-align: middle; height: 100px; border-collapse: collapse; text-align: center;">
+</td>
+</tr>
+<tr height="100">
+<td style="text-align: center;"><button type="button" onclick="help()"><img src="gc.jpg" height="50"></button></td>
+<td style="text-align: center;"><button id="book" type="button" onclick="getSound()"><img id="bookimg" src="book.jpg" height="50"></button></td>
+<td style="text-align: center;"><button id="ra" type="button" onclick="increment()"><img id="raimg" src="ra.jpg" height="50"></button></td>
+<td style="text-align: center;"><button id="ua" type="button" onclick="gl_increment()"><img id="uaimg" src="ua.jpg" height="50"></button></td>
+<td style="text-align: center;"><button id="da" type="button" onclick="gl_decrement()"><img id="daimg" src="da.jpg" height="50"></button></td>
+</tr>
+<tr>
+<td colspan="5" style="text-align: center;">
+<br>
+<br>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body></html>
